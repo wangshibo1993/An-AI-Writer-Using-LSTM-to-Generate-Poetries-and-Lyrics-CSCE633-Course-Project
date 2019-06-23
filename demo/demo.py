@@ -66,6 +66,8 @@ def poetry_generate():
         probs_, states_ = sess.run([probs, last_states], feed_dict={X: x, initial_state: states_})
         probs_ = np.squeeze(probs_)
         pos = int(np.searchsorted(np.cumsum(probs_), np.random.rand() * np.sum(probs_)))
+        while pos not in id2char:
+            pos = int(np.searchsorted(np.cumsum(probs_), np.random.rand() * np.sum(probs_)))
         c = id2char[pos]
     
     return gen[1:]
@@ -90,6 +92,8 @@ def poetry_generate_with_head(head):
             c = head[i]
             i += 1
         else:
+            while pos not in id2char:
+                pos = int(np.searchsorted(np.cumsum(probs_), np.random.rand() * np.sum(probs_)))
             c = id2char[pos]
     
     return gen[1:]
@@ -112,6 +116,8 @@ def poetry_generate_with_topic(head):
         probs_, states_ = sess.run([probs, last_states], feed_dict={X: x, initial_state: states_})
         probs_ = np.squeeze(probs_)
         pos = int(np.searchsorted(np.cumsum(probs_), np.random.rand() * np.sum(probs_)))
+        while pos not in id2char:
+            pos = int(np.searchsorted(np.cumsum(probs_), np.random.rand() * np.sum(probs_)))
         c = id2char[pos]
         if i<len(head):
             c=head[i]
